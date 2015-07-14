@@ -3,13 +3,7 @@ class Board
 
 	def initialize(args)
 		@size = args[:size]
-		@board = [] 
-		size.times do |row|
-			board[row] = []
-			size.times do |col|
-				board[row][col] = 0
-			end
-		end
+		@board = Array.new(size) { Array.new(size, 0) }
 	end
 
 	def display
@@ -20,14 +14,14 @@ class Board
 		end
 	end
 
-	def move(mark, space)
-		space = spacify(space)
-		self.board[space.x_cord][space.y_cord] = mark
+	def mark(mark, space)
+		x_cord, y_cord = space
+		self.board[x_cord][y_cord] = mark
 	end
 
 	def marked?(mark, space)
-		space = spacify(space)
-		if board[space.x_cord][space.y_cord] == mark
+		x_cord, y_cord = space
+		if board[x_cord][y_cord] == mark
 			true
 		else
 			false
@@ -45,8 +39,4 @@ class Board
 		end
 	end
 
-	Space = Struct.new(:x_cord, :y_cord)
-	def spacify(space)
-		Space.new(space[0], space[1])
-	end
 end
