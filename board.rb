@@ -16,16 +16,12 @@ class Board
 
 	def mark(mark, space)
 		x_cord, y_cord = space
-		self.board[x_cord][y_cord] = mark
+		board[x_cord][y_cord] = mark
 	end
 
 	def marked?(mark, space)
 		x_cord, y_cord = space
-		if board[x_cord][y_cord] == mark
-			true
-		else
-			false
-		end
+		(board[x_cord][y_cord] == mark) ?	true : false
 	end
 
 	private
