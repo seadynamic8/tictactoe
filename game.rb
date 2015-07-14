@@ -1,22 +1,28 @@
+require_relative 'player'
+require_relative 'board'
+
 class Game
 
-	attr_reader :players, :board, :turn
+	attr_reader :players, :board
+	attr_accessor :turn
 
 	def initialize
 		puts "------ Tic Tac Toe -------"
 		puts "\n"
 		puts "What size board are you playing on: "
 		board_size = gets.chomp.to_i
-		@board = Board.new(board_size)
-		@players = {first: Player.new(:X), second: Player.new(:Y)}
+		@board = Board.new(size: board_size)
+		@players = {first: Player.new(type: :x), second: Player.new(type: :y)}
 		@turn = :first
+		win_or_next?
 	end
 
 	def win_or_next?
-		unless board.win?
+		# unless board.win?
 			players[turn].go(board)
+			board.display
 			change_turn
-		end
+		# end
 	end
 
 	def change_turn

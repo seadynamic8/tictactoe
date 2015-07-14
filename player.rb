@@ -6,8 +6,14 @@ class Player
 	end
 
 	def go(board)
-		puts "Move (Player #{type}): "
+		board.move(self, get_move)
+	end
+
+	private
+
+	def get_move
+		print "Move (Player #{type}): "
 		move = gets.chomp.split(" ")
-		board.move(self, move)
+		move.map(&:to_i)
 	end
 end
