@@ -6,7 +6,7 @@ class Player
 	end
 
 	def go(board)
-		board.move(self, get_move)
+		board.move(type.to_s, get_move)
 	end
 
 	private

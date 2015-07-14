@@ -11,47 +11,56 @@ class Game
 		@board = Board.new(size: 3)
 		@players = {first: Player.new(type: :x), 
 								second: Player.new(type: :y)}
+		@current_player = @players[:first]
 	end
 
 	def play
-		until win?
-			change_player
-			players[turn].go(board)
+		loop do
+			@current_player.go(board)
 			board.display
+			break if win?
+			change_player
 		end
 		puts "Player #{@current_player.type.to_s} Wins!"
 	end
 
+	private
+
 	def change_player
-		if @current_player = nil
-			@current_player = :first
+		if @current_player == players[:first]
+			@current_player = players[:second]
 		else
-			@current_player = (@current_player == :first) ? :second : :first
+			@current_player = players[:first]
 		end
 	end
 
 	def win?
-		if row_win? or col_win? or diag_win?
+		if straight_win?(:row) or straight_win?(:col) or diag_win?
 			true
 		else
 			false
 		end
 	end
 
-	def row_win?
-		3.times do |row|
-			if board[row].all? {|space| space == @current_player.type}
-				return true
-			end
+	def diag_win?
+		t = @current_player.type.to_s
+		backward_diag = [[0, 0], [1, 1], [2, 2]]
+		forward_diag  = [[2, 0], [1, 1], [0, 2]]
+
+		if backward_diag.all? {|space| board.marked?(t, space)} or
+			 forward_diag.all?  {|space| board.marked?(t, space)}
+			true
+		else
+			false
 		end
-		false
 	end
 
-	def col_win?
+	def straight_win?(direction)
 		3.times do |row|
 			count_marks = 0
 			3.times do |col|
-				if board[row][col] == @current_player.type
+				space = (direction == :row) ? [row, col] : [col, row]
+				if board.marked?(@current_player.type.to_s, space)
 					count_marks += 1
 				end
 			end
@@ -60,17 +69,6 @@ class Game
 			end
 		end
 		false
-	end
-
-	def diag_win?
-		t = @current_player.type
-		if board[1][1] == t and
-			((board[0][0] == t and board[2][2] == t) or
-			 (board[2][0] == t and board[0, 2] == t))
-			true
-		else
-			false
-		end
 	end
 
 end

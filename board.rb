@@ -20,9 +20,18 @@ class Board
 		end
 	end
 
-	def move(player, space)
+	def move(mark, space)
 		space = spacify(space)
-		self.board[space.x_cord][space.y_cord] = player.type
+		self.board[space.x_cord][space.y_cord] = mark
+	end
+
+	def marked?(mark, space)
+		space = spacify(space)
+		if board[space.x_cord][space.y_cord] == mark
+			true
+		else
+			false
+		end
 	end
 
 	private
