@@ -15,20 +15,25 @@ class Board
 	def display
 		size.times do |row|
 			size.times do |col|
-				print "#{board[row][col]}"
-				if col == size - 1
-					print "\n"
-				else
-					print " "
-				end
+				print_space(row, col)
 			end
 		end
 	end
 
 	def move(player, space)
-		type = player.type
 		space = spacify(space)
-		self.board[space.x_cord][space.y_cord] = type
+		self.board[space.x_cord][space.y_cord] = player.type
+	end
+
+	private
+
+	def print_space(row, col)
+		print "#{board[row][col]}"
+		if col == size - 1
+			print "\n"
+		else
+			print " "
+		end
 	end
 
 	Space = Struct.new(:x_cord, :y_cord)
